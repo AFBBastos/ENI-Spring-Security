@@ -1,7 +1,7 @@
 package fr.eni.demo.bll;
 
 import fr.eni.demo.bo.Employe;
-import fr.eni.demo.dal.EmployeDAO;
+import fr.eni.demo.dal.EmployeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -22,7 +21,7 @@ public class TestEmployeService {
     private EmployeService employeService;
 
     @MockitoBean
-    private EmployeDAO employeDAO;
+    private EmployeRepository employeRepository;
 
     @Test
     void test_employeNull(){
@@ -43,9 +42,9 @@ public class TestEmployeService {
                 .immatriculation(immatriculation)
                 .build();
 
-        Mockito.when(
-                employeDAO.findByImmatriculation(immatriculation))
-                .thenReturn(Optional.of(employe01));
+//        Mockito.when(
+//                employeRepository.findByImmatriculation(immatriculation))
+//                .thenReturn(Optional.of(employe01));
 
         RuntimeException e = Assertions.assertThrows(RuntimeException.class,
                 ()-> employeService.ajouter(employe01));
@@ -77,7 +76,7 @@ public class TestEmployeService {
         listeEmploye.add(employe01);
         listeEmploye.add(employe02);
 
-        Mockito.when(employeDAO.findAll()).thenReturn(listeEmploye);
+        Mockito.when(employeRepository.findAll()).thenReturn(listeEmploye);
 
         List<Employe> employeList = employeService.chargerTousLesEmployes();
 

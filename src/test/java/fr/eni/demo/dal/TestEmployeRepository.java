@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
+import java.util.Optional;
+
 @DataJpaTest
 @Slf4j
 public class TestEmployeRepository {
@@ -35,4 +37,57 @@ public class TestEmployeRepository {
 
         Assertions.assertThat(employeDB.getId()).isGreaterThan(0);
     }
+
+    @Test
+    public void test_findEmploye() {
+        Employe employe = Employe.builder()
+                .email("email@email.com")
+                .nom("NomTest1")
+                .prenom("PrenomTest1")
+                .immatriculation("TESTIMMAT1")
+                .numDom("02134567890")
+                .numPortable("0689123456")
+                .build();
+
+        entityManager.persist(employe);
+        entityManager.flush();
+
+        log.info(employe.toString());
+
+        Integer id = employe.getId();
+
+        Optional<Employe> optionalEmploye = employeRepository.findById(id);
+
+        Assertions.assertThat(optionalEmploye).isPresent();
+
+        log.info(optionalEmploye.get().toString());
+    }
+
+    @Test
+    public void test_deleteEmploye(){
+
+        Employe employe = Employe.builder()
+                .email("email@email.com")
+                .nom("NomTest1")
+                .prenom("PrenomTest1")
+                .immatriculation("TESTIMMAT1")
+                .numDom("02134567890")
+                .numPortable("0689123456")
+                .build();
+
+        entityManager.persist(employe);
+        entityManager.flush();
+
+        log.info(employe.toString());
+
+        Integer id = employe.getId();
+
+        employeRepository.delete(employe);
+
+        Employe e = entityManager.find(Employe.class, id);
+
+        Assertions.assertThat(e).isNull();
+    }
+
+
 }

@@ -1,18 +1,17 @@
 package fr.eni.demo.bll;
 
 import fr.eni.demo.bo.Employe;
-import fr.eni.demo.dal.EmployeDAO;
+import fr.eni.demo.dal.EmployeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class EmployeServiceImpl implements EmployeService{
 
-    private EmployeDAO employeDAO;
+    private EmployeRepository employeRepository;
 
     @Override
     public void ajouter(Employe e) {
@@ -27,16 +26,16 @@ public class EmployeServiceImpl implements EmployeService{
         if(e.getPrenom().isBlank()){
             throw new RuntimeException("Le prénom de l'employé est obligatoire");
         }
-        Optional<Employe> optionalEmploye = employeDAO.findByImmatriculation(e.getImmatriculation());
-        if(optionalEmploye.isPresent()){
-            throw new RuntimeException("L'immatriculation doit être unique");
-        }
+//        TODO Optional<Employe> optionalEmploye = employeRepository.findByImmatriculation(e.getImmatriculation());
+//        if(optionalEmploye.isPresent()){
+//            throw new RuntimeException("L'immatriculation doit être unique");
+//        }
 
-        employeDAO.create(e);
+        employeRepository.save(e);
     }
 
     @Override
     public List<Employe> chargerTousLesEmployes() {
-        return employeDAO.findAll();
+        return employeRepository.findAll();
     }
 }
