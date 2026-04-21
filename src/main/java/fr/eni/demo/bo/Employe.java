@@ -38,5 +38,9 @@ public class Employe {
     @Column(name="Employee_CellPhoneNumber", length = 12, nullable = true)
     private String numPortable;
 
+    //Association entre tables Employe et Adresse
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "address_id")
+    private Adresse adresse;
 
 }
