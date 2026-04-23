@@ -2,6 +2,7 @@ package fr.eni.demo.bo;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -9,10 +10,11 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode(of = {"immatriculation"})
 @ToString
-@Builder
+@SuperBuilder
 
 @Entity
 @Table(name = "Employee")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employe {
 
     @Id
