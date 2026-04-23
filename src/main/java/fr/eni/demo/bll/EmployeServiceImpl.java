@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,10 +27,10 @@ public class EmployeServiceImpl implements EmployeService{
         if(e.getPrenom().isBlank()){
             throw new RuntimeException("Le prénom de l'employé est obligatoire");
         }
-//        TODO Optional<Employe> optionalEmploye = employeRepository.findByImmatriculation(e.getImmatriculation());
-//        if(optionalEmploye.isPresent()){
-//            throw new RuntimeException("L'immatriculation doit être unique");
-//        }
+        Optional<Employe> optionalEmploye = employeRepository.findByImmatriculation(e.getImmatriculation());
+        if(optionalEmploye.isPresent()){
+            throw new RuntimeException("L'immatriculation doit être unique");
+        }
 
         employeRepository.save(e);
     }

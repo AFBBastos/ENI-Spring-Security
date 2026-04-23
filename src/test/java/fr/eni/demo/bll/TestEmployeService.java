@@ -12,6 +12,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -42,9 +43,9 @@ public class TestEmployeService {
                 .immatriculation(immatriculation)
                 .build();
 
-//        Mockito.when(
-//                employeRepository.findByImmatriculation(immatriculation))
-//                .thenReturn(Optional.of(employe01));
+        Mockito.when(
+                employeRepository.findByImmatriculation(immatriculation))
+                .thenReturn(Optional.of(employe01));
 
         RuntimeException e = Assertions.assertThrows(RuntimeException.class,
                 ()-> employeService.ajouter(employe01));
