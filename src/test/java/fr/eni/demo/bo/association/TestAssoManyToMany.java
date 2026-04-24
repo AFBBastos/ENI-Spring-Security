@@ -6,7 +6,9 @@ import fr.eni.demo.bo.formation.Formateur;
 import fr.eni.demo.dal.CoursRepository;
 import fr.eni.demo.dal.FormateurRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
@@ -23,18 +25,8 @@ public class TestAssoManyToMany {
     @Autowired
     private CoursRepository coursRepository;
 
-    private Cours java;
-    private Cours spring;
-    private Cours python;
-    private Cours basesDesReseaux;
-
-    private Formateur formateur1;
-    private Formateur formateur2;
-    private Formateur formateur3;
-    private Formateur formateur4;
-
     @BeforeEach
-    void init_cours(){
+    void init(){
 
         List<Cours> listeCours = new ArrayList<>();
 
@@ -63,54 +55,71 @@ public class TestAssoManyToMany {
                 .build());
 
         coursRepository.saveAll(listeCours);
-    }
-
-    @BeforeEach
-    void _init_formateur(){
 
         List<Formateur> listeFormateurs = new ArrayList<>();
 
         listeFormateurs.add(Formateur.builder()
                 .nom("NomTest1")
                 .prenom("PrenomTest1")
+                .email("email1@gmail.com")
+                .immatriculation("IMMAT1")
                 .filiere("DEV")
                 .build());
 
         listeFormateurs.add(Formateur.builder()
                 .nom("NomTest2")
                 .prenom("PrenomTest2")
+                .email("email2@gmail.com")
+                .immatriculation("IMMAT2")
                 .filiere("DEV")
                 .build());
 
         listeFormateurs.add(Formateur.builder()
                 .nom("NomTest3")
                 .prenom("PrenomTest3")
+                .email("email3@gmail.com")
+                .immatriculation("IMMAT3")
                 .filiere("RES")
                 .build());
 
         listeFormateurs.add(Formateur.builder()
                 .nom("NomTest4")
                 .prenom("PrenomTest4")
+                .email("email4@gmail.com")
+                .immatriculation("IMMAT4")
                 .filiere("RES")
                 .build());
 
         formateurRepository.saveAll(listeFormateurs);
     }
 
-    //TODO: Corriger le test ci-dessous
-    // pour vérifier la bonne implementation du code
-//    @Test
-//    void test_save(){
-//
-//
-//        log.info(listeCours.toString());
-//        Assertions.assertThat(formateurDB.isPresent()).isTrue();
-//        Assertions.assertThat(formateurDB4.getListeCours()).hasSize(3);
-//    }
+    @Test
+    void test_save(){
+        List<Formateur> listeFormateurs = formateurRepository.findAll();
+        log.info(listeFormateurs.toString());
+        Assertions.assertThat(listeFormateurs.size()).isEqualTo(4);
 
-//    @Test
-//    void test_delete(){
-//
-//    }
+        List<Cours> listeCours = coursRepository.findAll();
+        log.info(listeCours.toString());
+        Assertions.assertThat(listeCours.size()).isEqualTo(4);
+    }
 
+    @Test
+    void test_delete(){
+        List<Formateur> listeFormateurs = formateurRepository.findAll();
+        log.info(listeFormateurs.toString());
+        formateurRepository.deleteById(listeFormateurs.getLast().getId());
+        formateurRepository.flush();
+        listeFormateurs = formateurRepository.findAll();
+        log.info(listeFormateurs.toString());
+        Assertions.assertThat(listeFormateurs.size()).isEqualTo(3);
+
+        List<Cours> listeCours = coursRepository.findAll();
+        log.info(listeCours.toString());
+        coursRepository.deleteById(listeCours.getLast().getId());
+        coursRepository.flush();
+        listeCours = coursRepository.findAll();
+        log.info(listeCours.toString());
+        Assertions.assertThat(listeCours.size()).isEqualTo(3);
+    }
 }

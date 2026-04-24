@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface EmployeRepository extends JpaRepository<Employe, Integer> {
 
     Optional<Employe> findByImmatriculation(String immatriculation);
-
 }

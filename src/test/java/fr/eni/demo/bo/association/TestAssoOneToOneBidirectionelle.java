@@ -221,6 +221,4 @@ public class TestAssoOneToOneBidirectionelle {
         Assertions.assertThat(donneesPersoDB).isNull();
     }
 
-
-
 }
