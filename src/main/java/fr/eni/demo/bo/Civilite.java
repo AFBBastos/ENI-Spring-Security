@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 
 @Entity
-@Table(name = "cuvility")
+@Table(name = "civility")
 public class Civilite {
 
     @Id
