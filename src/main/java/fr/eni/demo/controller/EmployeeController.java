@@ -2,6 +2,7 @@ package fr.eni.demo.controller;
 
 import fr.eni.demo.bll.EmployeService;
 import fr.eni.demo.bo.Employe;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employe")
-    ResponseEntity<?> ajouterEmploye(@RequestBody Employe employe){
+    ResponseEntity<?> ajouterEmploye(@Valid @RequestBody Employe employe){
         try{
             employeService.ajouter(employe);
             return ResponseEntity.ok(employe);
