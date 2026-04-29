@@ -37,7 +37,7 @@ public class Employe {
     private String prenom;
 
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 255)
     @Email
     @Column(name="Employee_Email", length = 255, nullable = false, unique = true)
     private String email;

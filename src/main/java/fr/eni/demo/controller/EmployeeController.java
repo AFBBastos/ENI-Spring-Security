@@ -13,12 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 
 @RestController
-@RequestMapping("/eniecole")
+@RequestMapping("/eniecole/employe")
 public class EmployeeController {
 
     private EmployeService employeService;
 
-    @GetMapping("/employes")
+    @GetMapping
     public ResponseEntity<?> chargerTousLesEmployes(){
         List<Employe> employeList = employeService.chargerTousLesEmployes();
         if(employeList == null || employeList.isEmpty()){
@@ -27,7 +27,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeList);
     }
 
-    @GetMapping("/employe/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<?> rechercherUnEmployee(@PathVariable("id") String idInPath){
 
         try{
@@ -43,7 +43,7 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping("/employe")
+    @PostMapping
     ResponseEntity<?> ajouterEmploye(@Valid @RequestBody Employe employe){
         try{
             employeService.ajouter(employe);
