@@ -5,10 +5,7 @@ import fr.eni.demo.bo.Employe;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeList);
     }
 
-    @GetMapping("/employes/{id}")
+    @GetMapping("/employe/{id}")
     public ResponseEntity<?> rechercherUnEmployee(@PathVariable("id") String idInPath){
 
         try{
@@ -42,6 +39,16 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'identifiant doit être un entier.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/employe")
+    ResponseEntity<?> ajouterEmploye(@RequestBody Employe employe){
+        try{
+            employeService.ajouter(employe);
+            return ResponseEntity.ok(employe);
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
 }
