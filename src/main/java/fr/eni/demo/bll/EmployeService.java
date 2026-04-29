@@ -9,4 +9,6 @@ public interface EmployeService {
     void ajouter(Employe e);
 
     List<Employe> chargerTousLesEmployes();
+
+    Employe chargerUnEmploye(int id);
 }

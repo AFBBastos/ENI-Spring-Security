@@ -37,6 +37,22 @@ public class EmployeServiceImpl implements EmployeService{
 
     @Override
     public List<Employe> chargerTousLesEmployes() {
+
         return employeRepository.findAll();
+    }
+
+    @Override
+    public Employe chargerUnEmploye(int id) {
+        if (id <=0){
+            throw  new RuntimeException("L'identifiant n'est pas valide.");
+        }
+
+        Optional<Employe> optionalEmploye = employeRepository.findById(id);
+
+        if (optionalEmploye.isEmpty()){
+            throw new RuntimeException("L'employé n'existe pas en database.");
+        }
+
+        return optionalEmploye.get();
     }
 }

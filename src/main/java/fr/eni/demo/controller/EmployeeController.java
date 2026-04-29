@@ -3,8 +3,10 @@ package fr.eni.demo.controller;
 import fr.eni.demo.bll.EmployeService;
 import fr.eni.demo.bo.Employe;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +27,21 @@ public class EmployeeController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(employeList);
+    }
+
+    @GetMapping("/employes/{id}")
+    public ResponseEntity<?> rechercherUnEmployee(@PathVariable("id") String idInPath){
+
+        try{
+            // Il faut parser l'id, qu'est un int vers String pour l'envoyer en "@PathVariable"
+            int idEmploye = Integer.parseInt(idInPath);
+            Employe employe = employeService.chargerUnEmploye(idEmploye);
+            return ResponseEntity.ok(employe);
+
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'identifiant doit être un entier.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
